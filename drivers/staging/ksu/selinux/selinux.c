@@ -91,7 +91,7 @@ bool getenforce()
 /*
  * get the subjective security ID of the current task
  */
-static inline u32 current_sid_ksu(void)
+static inline u32 current_sid(void)
 {
 	const struct task_security_struct *tsec = current_security();
 
@@ -104,7 +104,7 @@ bool is_ksu_domain()
 	char *domain;
 	u32 seclen;
 	bool result;
-	int err = security_secid_to_secctx(current_sid_ksu(), &domain, &seclen);
+	int err = security_secid_to_secctx(current_sid(), &domain, &seclen);
 	if (err) {
 		return false;
 	}
@@ -130,6 +130,23 @@ bool is_zygote(void *sec)
 	security_release_secctx(domain, seclen);
 	return result;
 }
+
+#ifdef CONFIG_KSU_SUSFS_SUS_MOUNT
+u32 ksu_get_zygote_sid(void)
+{
+	u32 zygote_sid = 0;
+	int err = security_secctx_to_secid("u:r:zygote:s0", strlen("u:r:zygote:s0"),
+					&zygote_sid);
+	if (err) {
+		pr_info("get zygote sid err %d\n", err);
+	}
+	return zygote_sid;
+}
+
+u32 ksu_get_current_sid(void) {
+	return current_sid();
+}
+#endif
 
 #define DEVPTS_DOMAIN "u:object_r:ksu_file:s0"
 
