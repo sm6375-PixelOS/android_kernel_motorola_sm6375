@@ -40,10 +40,6 @@ enum mmi_cp_iio_channels {
 	CP_INPUT_VOLTAGE_NOW,
 };
 
-enum mmi_cp_iio_channels {
-	CP_INPUT_VOLTAGE_NOW,
-};
-
 enum cp_iio_channels {
 	CP_PARALLEL_OUTPUT_MODE,
 	CP_MASTER_ENABLE,
