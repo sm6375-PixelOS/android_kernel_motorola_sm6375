@@ -154,6 +154,11 @@ unsigned int storage_mfrid;
 #define UFSHCD_MANUAL_GC_HOLD_HIBERN8		2000	/* 2 seconds */
 #endif
 
+#if defined(CONFIG_SCSI_SKHID)
+/* for manual gc */
+#define UFSHCD_MANUAL_GC_HOLD_HIBERN8		2000	/* 2 seconds */
+#endif
+
 #define ufshcd_toggle_vreg(_dev, _vreg, _on)				\
 	({                                                              \
 		int _ret;                                               \

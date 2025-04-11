@@ -805,6 +805,12 @@ static int smb5_parse_dt_mmi(struct smb5 *chip, struct device_node *node)
 	chg->usb_dcp_curr_max = 0;
 	np = of_find_node_by_path("/chosen");
 
+	retval = of_property_read_u32(npoint, "qcom,cdp-curr-max",
+				  &chg->usb_cdp_curr_max);
+	if (retval) {
+		chg->usb_cdp_curr_max = 1500000;
+	}
+
 	retval = of_property_read_u32(npoint, "qcom,dcp-curr-max",
 				  &chg->usb_dcp_curr_max);
 	if (retval) {
@@ -1411,6 +1417,9 @@ static int smb5_batt_set_prop(struct power_supply *psy,
 	case POWER_SUPPLY_PROP_CAPACITY:
 		rc = smblib_set_prop_batt_capacity(chg, val);
 		break;
+	case POWER_SUPPLY_PROP_CYCLE_COUNT:
+		rc = smblib_set_prop_batt_cycle_count(chg, val);
+		break;
 	case POWER_SUPPLY_PROP_VOLTAGE_MAX:
 		chg->batt_profile_fv_uv = val->intval;
 		vote(chg->fv_votable, BATT_PROFILE_VOTER, true, val->intval);
@@ -1433,6 +1442,7 @@ static int smb5_batt_prop_is_writeable(struct power_supply *psy,
 	case POWER_SUPPLY_PROP_STATUS:
 	case POWER_SUPPLY_PROP_INPUT_CURRENT_LIMIT:
 	case POWER_SUPPLY_PROP_CAPACITY:
+	case POWER_SUPPLY_PROP_CYCLE_COUNT:
 		return 1;
 	default:
 		break;
