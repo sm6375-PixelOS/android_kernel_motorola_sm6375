@@ -1595,7 +1595,7 @@ int32_t npu_host_unload_network(struct npu_client *client,
 	}
 
 	if (network->is_unloading) {
-		pr_err("network is unloading\n");
+		NPU_ERR("network is unloading\n");
 		network_put(network);
 		mutex_unlock(&host_ctx->lock);
 		return -EINVAL;
@@ -1619,6 +1619,8 @@ int32_t npu_host_unload_network(struct npu_client *client,
 		pr_err("fw in error state, skip unload network in fw\n");
 		goto free_network;
 	}
+	network->is_unloading = true;
+
 	network->is_unloading = true;
 
 	network->is_unloading = true;

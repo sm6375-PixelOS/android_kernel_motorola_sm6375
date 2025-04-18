@@ -633,6 +633,7 @@ struct smb_charger {
 	ktime_t			dcin_uv_last_time;
 	int			last_wls_vout;
 	int			usb_dcp_curr_max;
+	int			usb_cdp_curr_max;
 
 	/* mmi qc3p */
 	struct iio_channel	**iio_chan_list_mmi_cp;
@@ -719,6 +720,8 @@ int smblib_get_prop_batt_iterm(struct smb_charger *chg,
 int smblib_set_prop_input_suspend(struct smb_charger *chg,
 				  const union power_supply_propval *val);
 int smblib_set_prop_batt_capacity(struct smb_charger *chg,
+				const union power_supply_propval *val);
+int smblib_set_prop_batt_cycle_count(struct smb_charger *chg,
 				const union power_supply_propval *val);
 int smblib_set_prop_batt_status(struct smb_charger *chg,
 				const union power_supply_propval *val);

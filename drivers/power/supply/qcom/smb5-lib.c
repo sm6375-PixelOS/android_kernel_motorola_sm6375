@@ -915,6 +915,7 @@ static const char * const smblib_qg_ext_iio_chan[] = {
 	[SMB5_QG_CYCLE_COUNT] = "cycle_count",
 	[SMB5_QG_CHARGE_FULL_DESIGN] = "charge_full_design",
 	[SMB5_QG_TIME_TO_FULL_NOW] = "time_to_full_now",
+	[SMB5_QG_SOH] = "soh",
 };
 
 static int smblib_read_iio_prop(struct smb_charger *chg,
@@ -2569,6 +2570,17 @@ int smblib_set_prop_batt_capacity(struct smb_charger *chg,
 	power_supply_changed(chg->batt_psy);
 
 	return 0;
+}
+
+int smblib_set_prop_batt_cycle_count(struct smb_charger *chg,
+				  const union power_supply_propval *val)
+{
+	int rc;
+	rc = smblib_write_iio_prop(chg, QG, SMB5_QG_CYCLE_COUNT, val->intval);
+	if (rc < 0) {
+		smblib_err(chg, "smb5 set battery cycle_count failed, rc=%d\n", rc);
+	}
+	return rc;
 }
 
 int smblib_set_prop_batt_status(struct smb_charger *chg,
@@ -6195,7 +6207,7 @@ static void update_sw_icl_max(struct smb_charger *chg, int val)
 		break;
 	case POWER_SUPPLY_TYPE_USB_CDP:
 		vote(chg->usb_icl_votable, SW_ICL_MAX_VOTER, true,
-					CDP_CURRENT_UA);
+					(chg->usb_cdp_curr_max > 0) ? chg->usb_cdp_curr_max : CDP_CURRENT_UA);
 		vote(chg->usb_icl_votable, USB_PSY_VOTER, false, 0);
 		break;
 	case POWER_SUPPLY_TYPE_USB_DCP:

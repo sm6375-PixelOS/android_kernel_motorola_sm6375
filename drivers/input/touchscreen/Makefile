@@ -119,5 +119,7 @@ obj-$(CONFIG_TOUCHSCREEN_CHIPONE_V2_MMI)	+= chipone_tddi_v2_mmi/
 obj-$(CONFIG_TOUCHSCREEN_ILITEK_CHIPSET)	+= ilitek_v3_mmi/
 obj-$(CONFIG_TOUCHSCREEN_FOCALTECH_V3_MMI)	+= focaltech_v3_mmi/
 obj-$(CONFIG_TOUCHSCREEN_FTS_V3)	+= focaltech_touch_v3/
+obj-$(CONFIG_TOUCHSCREEN_ILITEK_CHIPSET_MMI)	+= ili9882_mmi/
+obj-$(CONFIG_TOUCHSCREEN_NT36xxx_HOSTDL_SPI_MMI)	+= nova_0flash_mmi/
 obj-$(CONFIG_TOUCHSCREEN_MMI)	+= touchscreen_mmi/
 obj-$(CONFIG_TOUCHSCREEN_GOODIX_BRL)	+= goodix_berlin_mmi/

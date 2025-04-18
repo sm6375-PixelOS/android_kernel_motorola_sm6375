@@ -7,6 +7,7 @@
 #
 
 obj-y				+= irqchip/
+obj-y				+= backlight/
 obj-y				+= bus/
 
 obj-$(CONFIG_GENERIC_PHY)	+= phy/
