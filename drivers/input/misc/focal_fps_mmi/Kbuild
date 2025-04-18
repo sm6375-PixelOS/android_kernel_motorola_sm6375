@@ -1,14 +1,3 @@
-# add -Wall to try to catch everything we can.
-EXTRA_CFLAGS += -Wall
-EXTRA_CFLAGS += -I$(ANDROID_BUILD_TOP)/motorola/kernel/modules/include \
-		-I$(ANDROID_BUILD_TOP)/motorola/kernel/modules/drivers/input/misc/focal_fps_mmi
-
-
-
-
-
-
-
 # Early-logging level for ff_hal, ff_ta and driver as well. Note that this
 # logging level only takes effect before ff_config module is loaded.
 #
@@ -44,6 +33,4 @@ ifneq ($(filter m y, $(CONFIG_FOCAL_PANEL_NOTIFICATIONS)),)
 	EXTRA_CFLAGS += -DCONFIG_PANEL_NOTIFICATIONS
 endif
 
-obj-m += focal_fps_mmi.o
-
-
+obj-$(CONFIG_INPUT_FOCAL_FPS_MMI) += focal_fps_mmi.o
