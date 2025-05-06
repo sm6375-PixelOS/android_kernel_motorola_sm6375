@@ -414,7 +414,7 @@ static ssize_t double_tap_enabled_show(struct device *dev,
 	struct ts_mmi_dev *touch_cdev = dev_get_drvdata(dev);
 
 	return snprintf(buf, PAGE_SIZE, "%u\n",
-			!!(touch_cdev->gesture_mode_type & TS_MMI_GESTURE_DOUBLE));
+			!!(touch_cdev->gesture_mode_type & TS_MMI_GESTURE_SINGLE));
 }
 static ssize_t double_tap_enabled_store(struct device *dev,
 					struct device_attribute *attr,
@@ -422,7 +422,7 @@ static ssize_t double_tap_enabled_store(struct device *dev,
 {
 	struct ts_mmi_dev *touch_cdev = dev_get_drvdata(dev);
 
-	gesture_set(touch_cdev, TS_MMI_GESTURE_DOUBLE, buf[0] != '0');
+	gesture_set(touch_cdev, TS_MMI_GESTURE_SINGLE, buf[0] != '0');
 
 	return count;
 }
