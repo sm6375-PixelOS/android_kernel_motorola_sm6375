@@ -4,7 +4,7 @@
 #include "cts_config.h"
 #include <linux/mmi_wake_lock.h>
 #include <linux/regulator/consumer.h>
-#ifdef CHIPONE_SENSOR_EN
+#if defined(CHIPONE_SENSOR_EN) && !defined(CONFIG_BOARD_USES_DOUBLE_TAP_CTRL)
 #include <linux/sensors.h>
 #endif
 
@@ -401,13 +401,7 @@ enum touch_panel_id {
         TOUCH_PANEL_MAX_IDX,
 };
 
-#ifdef CHIPONE_SENSOR_EN
-/* display state */
-enum display_state {
-        SCREEN_UNKNOWN,
-        SCREEN_OFF,
-        SCREEN_ON,
-};
+#if defined(CHIPONE_SENSOR_EN) && !defined(CONFIG_BOARD_USES_DOUBLE_TAP_CTRL)
 struct chipone_sensor_platform_data {
         struct input_dev *input_sensor_dev;
         struct sensors_classdev ps_cdev;
@@ -458,14 +452,13 @@ struct chipone_ts_data {
         bool wakeable;
         bool should_enable_gesture;
         bool gesture_enabled;
-        uint32_t report_gesture_key;
-        enum display_state screen_state;
-        struct mutex state_mutex;
+#ifndef CONFIG_BOARD_USES_DOUBLE_TAP_CTRL
         struct chipone_sensor_platform_data *sensor_pdata;
 #ifdef CONFIG_HAS_WAKELOCK
         struct wake_lock gesture_wakelock;
 #else
         struct wakeup_source *gesture_wakelock;
+#endif
 #endif
 #endif
 
@@ -474,7 +467,6 @@ struct chipone_ts_data {
 #endif
 
 #ifdef CONFIG_BOARD_USES_DOUBLE_TAP_CTRL
-        unsigned char gesture_mode_type;
         bool d_tap_flag;
         bool s_tap_flag;
 #endif

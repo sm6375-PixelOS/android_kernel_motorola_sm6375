@@ -1978,3 +1978,9 @@ config MOT_SECURE_CAMERA
 config MOT_USB_DEBUG_LOG
 	bool "For usb debug log in factiry SW"
 	default n
+
+config MMI_QC3P_TURBO_CHARGER
+        bool "QC3P turbo charging"
+        default n
+        help
+        Enable it for modules that have Quick charging 3.0 support.
